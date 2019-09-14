@@ -8,6 +8,7 @@ use App\Mockaroo\Mockaroo;
 use App\Entity\User;
 use App\Entity\PixabayImage;
 use App\Entity\Clothing;
+use App\Entity\Location;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Pixabay\Pixabay;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,6 +21,7 @@ class MockarooFixtures extends Fixture
     private $denormalizer;
 
     private $users = [];
+    private $locations = [];
     private $clothings = [];
     private $dressImages = [];
     private $profileImages = [];
@@ -72,6 +74,14 @@ class MockarooFixtures extends Fixture
             $manager->persist($clothing);
         }
         $this->clothings = $clothings;
+
+        // locations
+        $clothingGenerator = $mockaroo->makeGenerator(Location::class);
+        $locations = $clothingGenerator->generate(15);
+        foreach ($locations as $location) {
+            $manager->persist($location);
+        }
+        $this->locations = $locations;
     }
 
     private function loadEntityRelations(ObjectManager $manager)
@@ -82,6 +92,13 @@ class MockarooFixtures extends Fixture
             $images = $this->popRandom($this->profileImages, 1,1);
             if (!$images->isEmpty()) {
                 $user->setAvatar($images->first());
+                $manager->persist($user);
+            }
+
+            // pick one locations
+            $locations = $this->pickRandom($this->locations, 1,1);
+            if (!$locations->isEmpty()) {
+                $user->setLocation($locations->first());
                 $manager->persist($user);
             }
         }

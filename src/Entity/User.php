@@ -51,6 +51,20 @@ class User
      */
     private $clothings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("read")
+     */
+    private $location;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("read")
+     * @Mockaroo\Parameter({"type"="Slogan"});
+     */
+    private $slogan;
+
     public function __construct()
     {
         $this->clothings = new ArrayCollection();
@@ -127,4 +141,29 @@ class User
 
         return $this;
     }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getSlogan(): ?string
+    {
+        return $this->slogan;
+    }
+
+    public function setSlogan(string $slogan): self
+    {
+        $this->slogan = $slogan;
+
+        return $this;
+    }
+
 }

@@ -40,6 +40,36 @@ class Clothing
      */
     private $person;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Mockaroo\Parameter({"type"="Custom List", "values"={"XXL", "XL", "L", "M", "S", "XS", "XXS"}})
+     */
+    private $size;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
+     */
+    private $bust;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
+     */
+    private $waist;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
+     */
+    private $hips;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Mockaroo\Parameter({"type"="Number", "min"=20, "max"=200, "decimals"=0})
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +107,66 @@ class Clothing
     public function setPerson(?User $person): self
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getBust(): ?int
+    {
+        return $this->bust;
+    }
+
+    public function setBust(?int $bust): self
+    {
+        $this->bust = $bust;
+
+        return $this;
+    }
+
+    public function getWaist(): ?int
+    {
+        return $this->waist;
+    }
+
+    public function setWaist(?int $waist): self
+    {
+        $this->waist = $waist;
+
+        return $this;
+    }
+
+    public function getHips(): ?int
+    {
+        return $this->hips;
+    }
+
+    public function setHips(?int $hips): self
+    {
+        $this->hips = $hips;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
