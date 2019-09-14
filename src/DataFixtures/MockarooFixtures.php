@@ -36,6 +36,8 @@ class MockarooFixtures extends Fixture
         $mockaroo = $this->mockaroo;
 
         $this->createDressImages($manager, $this->pixabay, $this->denormalizer);
+        $this->createProfileImages($manager, $this->pixabay, $this->denormalizer);
+
         // create entities
         $this->loadEntities($manager);
 
