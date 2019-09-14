@@ -27,3 +27,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    'App\Mockaroo\Mockaroo':
+        arguments: ['%mockaroo_api_key%', '%mockaroo_temp_files_dir%']
+        autowire: true
+
+    'App\Pixabay\Pixabay':
+        arguments: ['%pixabay_api_key%']
+        autowire: true
