@@ -18,49 +18,49 @@ class PixabayImage
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $previewUrl;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $previewWidth;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $previewHeight;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $type;
 

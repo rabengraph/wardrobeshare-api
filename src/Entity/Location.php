@@ -17,13 +17,13 @@ class Location
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="City"})
      */
     private $name;

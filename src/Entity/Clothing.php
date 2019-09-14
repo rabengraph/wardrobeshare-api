@@ -8,7 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"readClothing"}})
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
  */
 class Clothing
@@ -17,58 +17,71 @@ class Clothing
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Mockaroo\Parameter({"type"="Product (Grocery)"});
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PixabayImage")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clothings")
+     * @Groups({"readClothing"})
      */
     private $person;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="Custom List", "values"={"XXL", "XL", "L", "M", "S", "XS", "XXS"}})
      */
     private $size;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
      */
     private $bust;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
      */
     private $waist;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="Number", "min"=29, "max"=45, "decimals"=0})
      */
     private $hips;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"readUser", "readClothing"})
      * @Mockaroo\Parameter({"type"="Number", "min"=20, "max"=200, "decimals"=0})
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Groups({"readUser", "readClothing"})
+     * @Mockaroo\Parameter({"type"="Paragraphs", "min"=1, "max"=3})
+     */
+    private $description;
 
     public function getId(): ?int
     {
@@ -167,6 +180,18 @@ class Clothing
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

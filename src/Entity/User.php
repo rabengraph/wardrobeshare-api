@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_users")
- * @ApiResource(normalizationContext={"groups"={"read"}})
+ * @ApiResource(normalizationContext={"groups"={"readUser"}})
  */
 class User
 {
@@ -21,47 +21,48 @@ class User
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Mockaroo\Parameter({"type"="Row Number"})
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
+
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Mockaroo\Parameter({"type"="First Name (Female)"});
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Mockaroo\Parameter({"type"="Email Address"});
-     * @Groups("read")
+     * @Groups({"readUser"})
      */
     private $email;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PixabayImage")
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $avatar;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Clothing", mappedBy="person")
-     * @Groups("read")
+     * @Groups({"readUser"})
      */
     private $clothings;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("read")
+     * @Groups({"readUser", "readClothing"})
      */
     private $location;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("read")
-     * @Mockaroo\Parameter({"type"="Slogan"});
+     * @Groups({"readUser"})
+     * @Mockaroo\Parameter({"type"="Slogan"})
      */
     private $slogan;
 
