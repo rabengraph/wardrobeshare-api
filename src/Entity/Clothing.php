@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Mockaroo;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -82,6 +84,23 @@ class Clothing
      * @Mockaroo\Parameter({"type"="Paragraphs", "min"=1, "max"=3})
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Color")
+     * @Groups({"readUser", "readClothing"})
+     */
+    private $colors;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $manufacturer;
+
+    public function __construct()
+    {
+        $this->colors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,6 +211,44 @@ class Clothing
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Color[]
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        if ($this->colors->contains($color)) {
+            $this->colors->removeElement($color);
+        }
+
+        return $this;
+    }
+
+    public function getManufacturer(): ?Manufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(?Manufacturer $manufacturer): self
+    {
+        $this->manufacturer = $manufacturer;
 
         return $this;
     }

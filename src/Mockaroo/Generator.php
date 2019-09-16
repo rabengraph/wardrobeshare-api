@@ -70,6 +70,7 @@ class Generator
 
         $response = $this->httpClient->request('GET', 'api/generate.json',
             [
+                'verify' => false,
                 'query' => [
                     'key'    => $this->apiKey,
                     'fields' => json_encode($parametersNormalized),
@@ -92,6 +93,14 @@ class Generator
 
         $entities = [];
         foreach ($normalizedItems as $key => $normalizedItem) {
+
+            // error in mockaroo response, consider this:
+            if(isset($normalizedItem['lat'])) {
+                $normalizedItem['lat'] = floatval($normalizedItem['lat']);
+            }
+            if(isset($normalizedItem['lng'])) {
+                $normalizedItem['lng'] = floatval($normalizedItem['lng']);
+            }
 
             // denormalize, but skip an uploaded file
             $entity = $this->denormalizer->denormalize($normalizedItem, $this->entityClass, null, ['ignored_attributes' => [$this->uploadedFileProperty]]);
