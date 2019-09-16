@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Mockaroo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"readClothing"}})
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
+ * @ApiFilter(RangeFilter::class, properties={"price"})
  */
 class Clothing
 {
@@ -94,6 +97,7 @@ class Clothing
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"readUser", "readClothing"})
      */
     private $manufacturer;
 
