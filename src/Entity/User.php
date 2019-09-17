@@ -17,7 +17,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ORM\Table(name="app_users")
  * @ApiResource(normalizationContext={"groups"={"readUser"}})
  * @ApiFilter(SearchFilter::class, properties={"location": "exact"})
- * @ApiFilter(RangeFilter::class, properties={"rating"})
+ * @ApiFilter(RangeFilter::class, properties={"rating", "location.lng", "location.lat"})
  */
 class User
 {
