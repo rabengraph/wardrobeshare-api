@@ -6,10 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use App\Mockaroo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\LocationRepository")
+ * @ApiFilter(RangeFilter::class, properties={"lat", "lng", "waist", "hips"})
+ * @ApiFilter(SearchFilter::class, properties={"city": "exact", "country": "exact"})
  */
 class Location
 {

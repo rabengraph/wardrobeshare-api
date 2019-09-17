@@ -10,11 +10,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"readClothing"}})
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
- * @ApiFilter(RangeFilter::class, properties={"price"})
+ * @ApiFilter(RangeFilter::class, properties={"price", "bust", "waist", "hips"})
+ * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact"})
  */
 class Clothing
 {

@@ -8,11 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Mockaroo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_users")
  * @ApiResource(normalizationContext={"groups"={"readUser"}})
+ * @ApiFilter(SearchFilter::class, properties={"location": "exact"})
+ * @ApiFilter(RangeFilter::class, properties={"rating"})
  */
 class User
 {
@@ -65,6 +70,13 @@ class User
      * @Mockaroo\Parameter({"type"="Slogan"})
      */
     private $slogan;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"readUser", "readClothing"})
+     * @Mockaroo\Parameter({"type"="Number", "min" = 0, "max" = 5, "decimals" = 0});
+     */
+    private $rating;
 
     public function __construct()
     {
@@ -163,6 +175,18 @@ class User
     public function setSlogan(string $slogan): self
     {
         $this->slogan = $slogan;
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }
