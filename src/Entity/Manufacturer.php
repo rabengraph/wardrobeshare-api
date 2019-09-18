@@ -8,7 +8,11 @@ use App\Mockaroo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"readManufacturer"}})
+ * @ApiResource(
+ *      normalizationContext={"groups"={"readManufacturer"}},
+ *      collectionOperations={"get"},
+ *      itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ManufacturerRepository")
  */
 class Manufacturer

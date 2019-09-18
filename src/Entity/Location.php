@@ -11,7 +11,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get"},
+ *      itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\LocationRepository")
  * @ApiFilter(RangeFilter::class, properties={"lat", "lng"})
  * @ApiFilter(SearchFilter::class, properties={"city": "exact", "country": "exact"})

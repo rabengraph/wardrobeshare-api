@@ -13,7 +13,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"readClothing"}})
+ * @ApiResource(
+ *      normalizationContext={"groups"={"readClothing"}},
+ *      collectionOperations={"get"},
+ *      itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
  * @ApiFilter(RangeFilter::class, properties={"price", "bust", "waist", "hips", "person.rating", "person.location.lat", "person.location.lng"})
  * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact"})

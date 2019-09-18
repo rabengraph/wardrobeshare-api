@@ -8,7 +8,11 @@ use App\Mockaroo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"readColor"}})
+ * @ApiResource(
+ *      normalizationContext={"groups"={"readColor"}},
+ *      collectionOperations={"get"},
+ *      itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ColorRepository")
  */
 class Color
