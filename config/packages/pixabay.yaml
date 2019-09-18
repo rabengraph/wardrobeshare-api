@@ -1,2 +1,2 @@
 parameters:
-  pixabay_api_key: 13624725-60267ce39c878797fd779d72f
+  pixabay_api_key: "%env(PIXABAY_API_KEY)%"
