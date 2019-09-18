@@ -14,6 +14,7 @@ use App\Entity\Manufacturer;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Pixabay\Pixabay;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use App\Config\ClothingImagesConfig;
 
 
 class MockarooFixtures extends Fixture
@@ -21,6 +22,8 @@ class MockarooFixtures extends Fixture
     private $mockaroo;
     private $pixabay;
     private $denormalizer;
+    private $clothingImagesPixabayApiQuery = 'dress';
+    private $clothingImagesPixabayApiCategory = 'fashion';
 
     private $users = [];
     private $locations = [];
@@ -30,12 +33,15 @@ class MockarooFixtures extends Fixture
     private $dressImages = [];
     private $profileImages = [];
 
-    public function __construct(Mockaroo $mockaroo, Pixabay $pixabay, DenormalizerInterface $denormalizer)
+    public function __construct(Mockaroo $mockaroo, Pixabay $pixabay, DenormalizerInterface $denormalizer, ClothingImagesConfig $clothingImagesConfig)
     {
         $this->mockaroo = $mockaroo;
         $this->pixabay = $pixabay;
         $this->denormalizer = $denormalizer;
+        $this->clothingImagesPixabayApiQuery = $clothingImagesConfig->apiQuery;
+        $this->clothingImagesPixabayApiCategory = $clothingImagesConfig->apiCategory;
     }
+
 
     public function load(ObjectManager $manager)
     {
@@ -192,9 +198,9 @@ class MockarooFixtures extends Fixture
 
         while ($pages) {
             $result = $pixabay->request([
-                'q' => 'dress',
+                'q' => $this->clothingImagesPixabayApiQuery,
                 'image_type' => 'photo',
-                'category' => 'fashion',
+                'category' => $this->clothingImagesPixabayApiCategory,
                 'orientation' => 'vertical',
                 'per_page' => 200,
                 'page' => $pages

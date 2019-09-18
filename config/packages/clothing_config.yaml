@@ -1,0 +1,3 @@
+parameters:
+  clothing_config_api_query: "%env(CLOTHING_CONFIG_API_QUERY)%"
+  clothing_config_api_category: "%env(CLOTHING_CONFIG_API_CATEGORY)%"
