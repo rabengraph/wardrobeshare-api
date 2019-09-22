@@ -7,7 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Mockaroo;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get"},
+ *      itemOperations={"get"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CultureRepository")
  */
 class Culture
