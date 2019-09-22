@@ -42,6 +42,13 @@ class Event
      */
     private $clothing;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"readClothing"})
+     */
+    private $person;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +86,18 @@ class Event
     public function setClothing(?Clothing $clothing): self
     {
         $this->clothing = $clothing;
+
+        return $this;
+    }
+
+    public function getPerson(): ?User
+    {
+        return $this->person;
+    }
+
+    public function setPerson(?User $person): self
+    {
+        $this->person = $person;
 
         return $this;
     }

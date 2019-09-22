@@ -82,9 +82,15 @@ class User
      */
     private $rating;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="person")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->clothings = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +197,37 @@ class User
     public function setRating(int $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getPerson() === $this) {
+                $event->setPerson(null);
+            }
+        }
 
         return $this;
     }

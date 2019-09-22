@@ -151,6 +151,12 @@ class MockarooFixtures extends Fixture
                 $event->setOccasion($occasions->first());
             }
 
+            // pick one user
+            $users = $this->pickRandom($this->users, 1,1);
+            if (!$users->isEmpty()) {
+                $event->setPerson($users->first());
+            }
+
             $manager->persist($event);
         }
 
