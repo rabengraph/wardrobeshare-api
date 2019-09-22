@@ -20,7 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
  * @ApiFilter(RangeFilter::class, properties={"price", "bust", "waist", "hips", "person.rating", "person.location.lat", "person.location.lng"})
- * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact", "eventsWorn.occasion": "exact", "culture": "exact"})
  */
 class Clothing
 {
@@ -107,9 +107,23 @@ class Clothing
      */
     private $manufacturer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="clothing", orphanRemoval=true)
+     * @Groups({"readClothing"})
+     */
+    private $eventsWorn;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Culture")
+     * @Groups({"readClothing"})
+     */
+    private $cultures;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
+        $this->eventsWorn = new ArrayCollection();
+        $this->cultures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -259,6 +273,63 @@ class Clothing
     public function setManufacturer(?Manufacturer $manufacturer): self
     {
         $this->manufacturer = $manufacturer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEventsWorn(): Collection
+    {
+        return $this->eventsWorn;
+    }
+
+    public function addEventsWorn(Event $eventsWorn): self
+    {
+        if (!$this->eventsWorn->contains($eventsWorn)) {
+            $this->eventsWorn[] = $eventsWorn;
+            $eventsWorn->setClothing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsWorn(Event $eventsWorn): self
+    {
+        if ($this->eventsWorn->contains($eventsWorn)) {
+            $this->eventsWorn->removeElement($eventsWorn);
+            // set the owning side to null (unless already changed)
+            if ($eventsWorn->getClothing() === $this) {
+                $eventsWorn->setClothing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Culture[]
+     */
+    public function getCultures(): Collection
+    {
+        return $this->cultures;
+    }
+
+    public function addCulture(Culture $culture): self
+    {
+        if (!$this->cultures->contains($culture)) {
+            $this->cultures[] = $culture;
+        }
+
+        return $this;
+    }
+
+    public function removeCulture(Culture $culture): self
+    {
+        if ($this->cultures->contains($culture)) {
+            $this->cultures->removeElement($culture);
+        }
 
         return $this;
     }

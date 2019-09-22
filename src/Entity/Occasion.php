@@ -4,31 +4,28 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use App\Mockaroo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *      normalizationContext={"groups"={"readManufacturer"}},
  *      collectionOperations={"get"},
  *      itemOperations={"get"}
  * )
- * @ORM\Entity(repositoryClass="App\Repository\ManufacturerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OccasionRepository")
  */
-class Manufacturer
+class Occasion
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"readUser", "readClothing", "readManufacturer"})
+     * @Groups({"readClothing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"readUser", "readClothing", "readManufacturer"})
-     * @Mockaroo\Parameter({"type"="Fake Company Name"})
+     * @Groups({"readClothing"})
      */
     private $name;
 

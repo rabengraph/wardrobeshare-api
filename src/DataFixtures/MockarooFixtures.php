@@ -11,6 +11,9 @@ use App\Entity\Clothing;
 use App\Entity\Location;
 use App\Entity\Color;
 use App\Entity\Manufacturer;
+use App\Entity\Culture;
+use App\Entity\Event;
+use App\Entity\Occasion;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Pixabay\Pixabay;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -32,6 +35,9 @@ class MockarooFixtures extends Fixture
     private $clothings = [];
     private $dressImages = [];
     private $profileImages = [];
+    private $occasions = [];
+    private $events = [];
+    private $cultures = [];
 
     public function __construct(Mockaroo $mockaroo, Pixabay $pixabay, DenormalizerInterface $denormalizer, ClothingImagesConfig $clothingImagesConfig)
     {
@@ -108,10 +114,46 @@ class MockarooFixtures extends Fixture
             $manager->persist($manufacturer);
         }
         $this->manufacturers = $manufacturers;
+
+        // cultures
+        $generator = $mockaroo->makeGenerator(Culture::class);
+        $entities = $generator->generate(10);
+        foreach ($entities as $entity) {
+            $manager->persist($entity);
+        }
+        $this->cultures = $entities;
+
+        // events
+        $generator = $mockaroo->makeGenerator(Event::class);
+        $entities = $generator->generate(1000);
+        foreach ($entities as $entity) {
+            $manager->persist($entity);
+        }
+        $this->events = $entities;
+
+        // occasions
+        $occasionNames = ['Cocktail Party', 'Wedding', 'Job Interview', 'Opera', 'Funeral'];
+        foreach ($occasionNames as $occasionName) {
+            $occasion = new Occasion;
+            $occasion->setName($occasionName);
+            $manager->persist($occasion);
+            $this->occasions[] = $occasion;
+        }
     }
 
     private function loadEntityRelations(ObjectManager $manager)
     {
+        foreach ($this->events as $event) {
+
+            // pick one occasion
+            $occasions = $this->pickRandom($this->occasions, 1,1);
+            if (!$occasions->isEmpty()) {
+                $event->setOccasion($occasions->first());
+            }
+
+            $manager->persist($event);
+        }
+
         foreach ($this->users as $user) {
 
             // pick one media files
@@ -150,6 +192,17 @@ class MockarooFixtures extends Fixture
             if (!$manufacturers->isEmpty()) {
                 $clothing->setManufacturer($manufacturers->first());
             }
+
+            $cultures = $this->pickRandom($this->cultures, 1, 2);
+            foreach($cultures as $culture) {
+                $clothing->addCulture($culture);
+            }
+
+            $events = $this->popRandom($this->events, 0, 4);
+            foreach($events as $event) {
+                $clothing->addEventsWorn($event);
+            }
+
 
             $manager->persist($clothing);
         }
