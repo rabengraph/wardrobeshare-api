@@ -20,7 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ClothingRepository")
  * @ApiFilter(RangeFilter::class, properties={"price", "bust", "waist", "hips", "person.rating", "person.location.lat", "person.location.lng"})
- * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact", "eventsWorn.occasion": "exact", "culture": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"location": "exact", "size": "exact", "colors": "exact", "manufacturer": "exact", "eventsWorn.occasion": "exact", "cultures": "exact"})
  */
 class Clothing
 {
